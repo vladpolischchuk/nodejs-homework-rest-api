@@ -1,25 +1,27 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
+const ctrl = require("../../controllers/controllers");
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const { validateBody } = require("../../utils/index");
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const {
+  addSchema,
+  updateFavoriteSchema
+} = require("../../models/contact");
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const router = express.Router();
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/", ctrl.getAll);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/:id", ctrl.getById);
 
-module.exports = router
+router.post("/", validateBody(addSchema.addShema), ctrl.getAdd);
+
+router.delete("/:contactId", ctrl.getRemove);
+
+router.put("/:contactId", validateBody(addSchema.addShema), ctrl.getUpdate);
+
+router.patch("/:contactId/favorite", validateBody(updateFavoriteSchema.addShema), ctrl.getFavorite);
+
+
+module.exports = router;
