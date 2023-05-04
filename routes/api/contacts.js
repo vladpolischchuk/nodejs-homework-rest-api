@@ -4,6 +4,8 @@ const ctrl = require("../../controllers/controllers");
 
 const { validateBody } = require("../../utils/index");
 
+const { authenticate } = require("../../middlewares/index");
+
 const {
   addSchema,
   updateFavoriteSchema
@@ -11,17 +13,17 @@ const {
 
 const router = express.Router();
 
-router.get("/", ctrl.getAll);
+router.get("/", authenticate, ctrl.getAll);
 
-router.get("/:id", ctrl.getById);
+router.get("/:id", authenticate, ctrl.getById);
 
-router.post("/", validateBody(addSchema.addShema), ctrl.getAdd);
+router.post("/", authenticate, validateBody(addSchema), ctrl.getAdd);
 
-router.delete("/:contactId", ctrl.getRemove);
+router.delete("/:contactId", authenticate, ctrl.getRemove);
 
-router.put("/:contactId", validateBody(addSchema.addShema), ctrl.getUpdate);
+router.put("/:contactId", authenticate, validateBody(addSchema), ctrl.getUpdate);
 
-router.patch("/:contactId/favorite", validateBody(updateFavoriteSchema.addShema), ctrl.getFavorite);
+router.patch("/:contactId/favorite", authenticate, validateBody(updateFavoriteSchema), ctrl.getFavorite);
 
 
 module.exports = router;
